@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Available Sessions</h2>
+    <ul>
+        {% for session in sessions %}
+        <li>
+            {{ session.start_time }} - {{ session.end_time }}
+            <a href="{{ url_for('booking', session_id=session.id) }}">Book</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Календарь</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Календарь бронирования</h1>
+
+    <label for="date">Выберите дату:</label>
+    <input type="date" id="date" name="date">
+    <button id="check-slots">Показать доступные слоты</button>
+
+    <h2>Доступные слоты:</h2>
+    <ul id="available-slots">
+        <!-- Здесь будут отображаться слоты -->
+    </ul>
+
+    <script>
+        $(document).ready(function () {
+            $('#check-slots').on('click', function () {
+                const selectedDate = $('#date').val();
+                if (!selectedDate) {
+                    alert("Выберите дату!");
+                    return;
+                }
+
+                $.get(`/available_slots/${selectedDate}`, function (data) {
+                    $('#available-slots').empty();
+                    if (data.available_slots) {
+                        data.available_slots.forEach(slot => {
+                            $('#available-slots').append(`<li>${slot} <button class="book-slot" data-slot="${slot}">Забронировать</button></li>`);
+                        });
+                    } else {
+                        $('#available-slots').append(`<li>${data.message}</li>`);
+                    }
+                });
+            });
+
+            $(document).on('click', '.book-slot', function () {
+                const slot = $(this).data('slot');
+                const selectedDate = $('#date').val();
+                $.post('/book_slot', {date: selectedDate, slot: slot}, function (response) {
+                    alert(response.message);
+                    $('#check-slots').click(); // Обновить слоты
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

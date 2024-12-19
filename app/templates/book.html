@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Забронировать сеанс</title>
+</head>
+<body>
+    <h1>Забронировать сеанс на {{ session.start_time }} - {{ session.end_time }}</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.user_name.label }}: {{ form.user_name() }}
+        </div>
+        <div>
+            {{ form.phone_number.label }}: {{ form.phone_number() }}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+    <br>
+    <a href="{{ url_for('home') }}">Назад на главную</a>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Admin Panel</h1>
+    <h2>Manage Holidays</h2>
+    <form action="{{ url_for('add_holiday') }}" method="POST">
+        <label for="name">Holiday Name:</label>
+        <input type="text" name="name" required>
+        <label for="date">Date:</label>
+        <input type="date" name="date" required>
+        <button type="submit">Add Holiday</button>
+    </form>
+    <ul>
+        {% for holiday in holidays %}
+            <li>
+                {{ holiday.date }} - {{ holiday.name }}
+                <a href="{{ url_for('delete_holiday', holiday_id=holiday.id) }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Manage Work Schedule</h2>
+    <form action="{{ url_for('add_schedule') }}" method="POST">
+        <label for="start_time">Start Time:</label>
+        <input type="time" name="start_time" required>
+        <label for="end_time">End Time:</label>
+        <input type="time" name="end_time" required>
+        <button type="submit">Add Schedule</button>
+    </form>
+    <ul>
+        {% for schedule in schedules %}
+            <li>
+                {{ schedule.start_time }} - {{ schedule.end_time }}
+                <a href="{{ url_for('delete_schedule', schedule_id=schedule.id) }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Manage Bookings</h2>
+    <ul>
+        {% for booking in bookings %}
+            <li>
+                Booking ID: {{ booking.id }}, User ID: {{ booking.user_id }}, Session ID: {{ booking.session_id }}
+            </li>
+        {% endfor %}
+    </ul>
+	
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Рабочий график</title>
+</head>
+<body>
+    <h1>Рабочий график</h1>
+    <form method="post" action="{{ url_for('add_schedule') }}">
+        <label>День недели:</label>
+        <input type="text" name="day_of_week" required>
+        <label>Начало работы:</label>
+        <input type="time" name="start_time" required>
+        <label>Конец работы:</label>
+        <input type="time" name="end_time" required>
+        <button type="submit">Добавить расписание</button>
+    </form>
+
+    <h2>Добавить праздничный день</h2>
+    <form method="post" action="{{ url_for('add_holiday') }}">
+        <label>Дата:</label>
+        <input type="date" name="holiday_date" required>
+        <label>Название:</label>
+        <input type="text" name="name" required>
+        <button type="submit">Добавить праздник</button>
+    </form>
+
+    <h2>Рабочие дни:</h2>
+    <ul>
+        {% for schedule in work_schedule %}
+            <li>{{ schedule.day_of_week }}: {{ schedule.start_time }} - {{ schedule.end_time }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Праздничные дни:</h2>
+    <ul>
+        {% for holiday in holidays %}
+            <li>{{ holiday.date }} - {{ holiday.name }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

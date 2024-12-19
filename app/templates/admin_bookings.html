@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>All Bookings</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Session</th>
+            <th>Timestamp</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for booking in bookings %}
+        <tr>
+            <td>{{ booking.id }}</td>
+            <td>{{ booking.user.username }}</td>
+            <td>{{ booking.session.name }}</td>
+            <td>{{ booking.timestamp }}</td>
+            <td>
+                <a href="{{ url_for('admin_delete_booking', booking_id=booking.id) }}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">Back to Admin Panel</a>
+{% endblock %}
+
+<form method="GET" action="{{ url_for('admin_bookings') }}" class="mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <label for="date" class="form-label">Filter by Date</label>
+            <input type="date" id="date" name="date" class="form-control" value="{{ date_filter }}">
+        </div>
+        <div class="col-md-4">
+            <label for="status" class="form-label">Filter by Status</label>
+            <select id="status" name="status" class="form-control">
+                <option value="">All</option>
+                <option value="confirmed" {% if status_filter == 'confirmed' %}selected{% endif %}>Confirmed</option>
+                <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </div>
+</form>
+

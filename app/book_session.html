@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Session</title>
+</head>
+<body>
+    <h1>Booking Session</h1>
+    <p>Session starts at: {{ session.start_time }}</p>
+    <p>Session ends at: {{ session.end_time }}</p>
+
+    <form method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" required><br><br>
+        
+        <label for="comments">Comments:</label><br>
+        <textarea name="comments"></textarea><br><br>
+        
+        <input type="submit" value="Book Session">
+    </form>
+</body>
+</html>
